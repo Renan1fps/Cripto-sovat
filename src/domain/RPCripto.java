@@ -1,9 +1,11 @@
 package domain;
 
+import utils.Helpers;
+
 import java.nio.ByteBuffer;
 import java.util.Random;
 
-public class Cripto {
+public class RPCripto {
 
     public static String hash(String input) {
         // Tamanho do hash em bits
@@ -33,11 +35,6 @@ public class Cripto {
             }
         }
 
-        // Retorna o hash em formato hexadecimal
-        StringBuilder sb = new StringBuilder();
-        for (byte b : hashBytes) {
-            sb.append(String.format("%02x", b));
-        }
-        return sb.toString();
+        return Helpers.parseHexToString(hashBytes);
     }
 }

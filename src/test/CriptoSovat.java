@@ -1,6 +1,6 @@
 package test;
 
-import domain.Cripto;
+import domain.RPCripto;
 
 import java.util.Scanner;
 
@@ -12,7 +12,7 @@ public class CriptoSovat {
         String originalString = sc.nextLine();
         System.out.println("String original: " + originalString);
 
-        String hashedString = Cripto.hash(originalString);
+        String hashedString = RPCripto.hash(originalString);
         System.out.println("Hash da string: " + hashedString);
     }
 }
