@@ -5,14 +5,14 @@ import java.security.NoSuchAlgorithmException;
 
 public class Sha256Cripto {
 
-    public static byte[] hash(String input) {
+    public static String hash(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hashedBytes = digest.digest(input.getBytes());
-            return hashedBytes;
+            return bytesToHex(hashedBytes);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            return new byte[0];
+            return "";
         }
     }
 

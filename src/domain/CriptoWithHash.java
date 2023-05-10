@@ -1,5 +1,7 @@
 package domain;
 
+import utils.Helpers;
+
 import java.nio.ByteBuffer;
 import java.util.Random;
 
@@ -9,7 +11,7 @@ public class CriptoWithHash {
     private static final int TABLE_SIZE = 1000;
     private static final int HASH_SIZE = 256;
 
-    private static class HashEntry {
+    public static class HashEntry {
         String key;
         String value;
         HashEntry next;
@@ -18,51 +20,6 @@ public class CriptoWithHash {
             this.key = key;
             this.value = value;
             this.next = null;
-        }
-    }
-
-    private static class HashTable {
-        HashEntry[] table;
-
-        public HashTable() {
-            table = new HashEntry[TABLE_SIZE];
-            for (int i = 0; i < TABLE_SIZE; i++) {
-                table[i] = null;
-            }
-        }
-
-        private int getHash(String key) {
-            int hash = 0;
-            for (int i = 0; i < key.length(); i++) {
-                hash = (hash << 4) + key.charAt(i);
-            }
-            return hash % TABLE_SIZE;
-        }
-
-        public void put(String key, String value) {
-            int hash = getHash(key);
-            if (table[hash] == null) {
-                table[hash] = new HashEntry(key, value);
-            } else {
-                HashEntry entry = table[hash];
-                while (entry.next != null && !entry.key.equals(key)) {
-                    entry = entry.next;
-                }
-                if (entry.key.equals(key)) {
-                    entry.value = value;
-                } else {
-                    entry.next = new HashEntry(key, value);
-                }
-            }
-        }
-
-        public String get(String key) {
-            int hash = getHash(key);
-            HashEntry entry = table[hash];
-            while (entry != null && !entry.key.equals(key)) {
-                entry = entry.next;
-            }
-            return (entry == null) ? null : entry.value;
         }
     }
 
@@ -94,25 +51,15 @@ public class CriptoWithHash {
         return sb.toString();
     }
 
-    private static String generateRandomPassword() {
-        Random random = new Random();
-        char[] password = new char[random.nextInt(10) + 6];
-        for (int i = 0; i < password.length; i++) {
-            password[i] = (char) (random.nextInt(94) + 33);
-        }
-        return new String(password);
-    }
-
-
     public static void main(String[] args) {
         HashEntry[] hashTable = new HashEntry[TABLE_SIZE];
         int collisions = 0;
 
         for (int i = 0; i < 1000; i++) {
-            String password = generateRandomPassword();
-            String hashedPassword = hash(password);
+            String password = Helpers.generateRandomPassword();
+            String hashedPassword = RPCripto.hash(password);
 
-            int index = getIndex(hashedPassword);
+            int index = Helpers.getIndex(hashedPassword);
 
             if (hashTable[index] == null) {
                 hashTable[index] = new HashEntry(password, hashedPassword);
@@ -143,14 +90,6 @@ public class CriptoWithHash {
         }
 
         System.out.println("Collisions: " + collisions);
-    }
-
-    private static int getIndex(String hashedPassword) {
-        int index = 0;
-        for (byte b : hashedPassword.getBytes()) {
-            index += b;
-        }
-        return index % TABLE_SIZE;
     }
 }
 

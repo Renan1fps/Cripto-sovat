@@ -7,6 +7,8 @@ import java.util.Random;
 
 public class RPCripto {
 
+    private static final int HASH_SIZE = 256;
+
     public static String hash(String input) {
         // Tamanho do hash em bits
         int hashSize = 256;
@@ -35,6 +37,11 @@ public class RPCripto {
             }
         }
 
-        return Helpers.parseHexToString(hashBytes);
+        // Retorna o hash em formato hexadecimal
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hashBytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
     }
 }

@@ -15,6 +15,20 @@ public class Helpers {
         return new String(password);
     }
 
+    public static String generateSimpleRandom(int comprimento){
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(comprimento);
+
+        for (int i = 0; i < comprimento; i++) {
+            int indice = random.nextInt(caracteres.length());
+            char caracterAleatorio = caracteres.charAt(indice);
+            sb.append(caracterAleatorio);
+        }
+
+        return sb.toString();
+    }
+
     public static int getIndex(String hashedPassword) {
         int index = 0;
         for (byte b : hashedPassword.getBytes()) {

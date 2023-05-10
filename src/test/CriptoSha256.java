@@ -12,8 +12,7 @@ public class CriptoSha256 {
         String originalString = sc.nextLine();
         System.out.println("String original: " + originalString);
 
-        byte[] hashedBytes = Sha256Cripto.hash(originalString);
-        String hashedString = Sha256Cripto.bytesToHex(hashedBytes);
+        String hashedString = Sha256Cripto.hash(originalString);
         System.out.println("Hash: " + hashedString);
     }
 }
